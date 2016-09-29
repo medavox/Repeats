@@ -1,6 +1,6 @@
 package com.medavox.repeats.datamodels;
 
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 
 /**
  * @author adam
@@ -8,9 +8,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Plan {
-    @SerializedName("plan_id")
+    //@SerializedName("plan_id")
     int planID;
-    @SerializedName("device_id")
+    //@SerializedName("device_id")
     String deviceID;
 
     public Plan(int plan_id, String device_id) {

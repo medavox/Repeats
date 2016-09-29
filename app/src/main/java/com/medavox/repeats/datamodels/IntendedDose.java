@@ -1,7 +1,7 @@
 package com.medavox.repeats.datamodels;
 
 import com.medavox.repeats.utility.DateTime;
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 
 /**
  * @author 1
@@ -9,15 +9,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class IntendedDose {
 
-    @SerializedName("dose_id")
+//    @SerializedName("dose_id")
     private int dose_id;
-    @SerializedName("time_start")
+  //  @SerializedName("time_start")
     private long time_start;
-    @SerializedName("time_end")
+    //@SerializedName("time_end")
     private long time_end;
-    @SerializedName("time_due")
+    //@SerializedName("time_due")
     private long time_due;
-    @SerializedName("quantity")
+    //@SerializedName("quantity")
     private int quantity;
 
     private static int demoDoseIDCounter = 1;

@@ -14,7 +14,6 @@ import com.medavox.repeats.backend.Backend;
 import com.medavox.repeats.backend.BackendHelper;
 import com.medavox.repeats.datamodels.CompletedDose;
 import com.medavox.repeats.datamodels.IntendedDose;
-import com.medavox.repeats.network.NetworkController;
 import com.medavox.repeats.utility.DateTime;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,8 +27,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-
-import retrofit2.Call;
 
 /**@author Adam Howard
 @date 25/07/2016
@@ -123,34 +120,6 @@ public class BackgroundService extends Service {
 
     //-----------------------------------eventbus subscribe methods
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onNetworkRequestFailure(NetworkRequestFailure nrf) {
-        Call failedCall = nrf.getCall();
-        Log.d("OFFLINE REQUEST CACHE", "received network request failure, of type: "+nrf.getError());
-
-        OfflineCacheService.addRequest(failedCall);
-    }
-
-    /**Listens for missed doses (whether or not the main app is running),
-     * and updates the DB and platform with the CompletedDose (of type missed)*/
-    @Subscribe (threadMode = ThreadMode.BACKGROUND)
-    public void onDoseEvent(DoseEvent de) {
-        switch(de.getEventType()) {
-            case DOSE_MISSED:
-                Backend helper = BackendHelper.getInstance(this);
-
-                //convert latest IntendedDose into a CompletedDose
-                IntendedDose justMissed = de.getDoses()[0];
-                CompletedDose cd = new CompletedDose(justMissed, CompletedDose.DOSE_MISSED);
-
-                //add it to Completed Doses local SQLite table
-                helper.addCompletedDose(cd);
-
-                //send it to the platform
-                NetworkController.getInstance().postDoseData(cd);
-                break;
-        }
-    }
 
     //--------------------static methods for alarms/reminder management
 
@@ -169,7 +138,7 @@ public class BackgroundService extends Service {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    EventBus.getDefault().post(new DoseEvent(this, DoseEvent.DoseEventType.DOSE_MISSED, finalDose));
+                    //EventBus.getDefault().post(new DoseEvent(this, DoseEvent.DoseEventType.DOSE_MISSED, finalDose));
                     missedDoseTasks.remove(finalDose.getDoseID());
                 }
             };

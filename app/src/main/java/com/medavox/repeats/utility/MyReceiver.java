@@ -39,11 +39,11 @@ public class MyReceiver extends BroadcastReceiver
                 boolean isWiFi = activeNetwork != null &&
                         activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
 
-                if(isConnected && isWiFi && OfflineCacheService.hasCachedRequests() && currentSetAlarm == null) {
+                if(isConnected && isWiFi /*&& OfflineCacheService.hasCachedRequests() */&& currentSetAlarm == null) {
                     /*When internet becomes available:
                 * if we have any cached network requests
                 * set an alarm to retry them in ~5 minutes (jittered)*/
-                    currentSetAlarm = OfflineCacheService.scheduleCacheRetry();
+                    //currentSetAlarm = OfflineCacheService.scheduleCacheRetry();
                 }
                 else if(currentSetAlarm != null) {
                     //cancel the currently set alarm (if there is one), as we no longer have WiFi

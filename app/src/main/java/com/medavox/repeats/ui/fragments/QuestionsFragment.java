@@ -52,19 +52,6 @@ public class QuestionsFragment extends Fragment implements View.OnClickListener 
 
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
-    private void sendData(PlatformCodes code){
-        //todo: reimplement this for restful MEAN stack
-        Toast.makeText(getActivity(), "TODO: reimplement questionnaire feedback", Toast.LENGTH_SHORT).show();
-        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getActivity().getString(R.string.SHARED_PREFERENCES_FILENAME), Context.MODE_PRIVATE);
-        NetworkController.getInstance().postDoseData(new PlatformDataPacket(user_id,
-                sharedPreferences.getInt(this.getString(R.string.SESSION_ID), 0),
-                DateTime.getCurrentValue("date"),
-                DateTime.getCurrentValue("time"),
-                PlatformCodes.getCode(code),
-                study_id,
-                0));*/
-    }
-
 
     @Override
     public void onClick(View v) {

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.medavox.repeats.R;
-import com.medavox.repeats.network.NetworkController;
 import com.medavox.repeats.ui.DelegatorActivity;
 
 /**
@@ -97,7 +96,7 @@ public class PreferencesChangeListener implements SharedPreferences.OnSharedPref
                 String userID = sp.getString(userIDPrefsKey, null);
                 //one last sanity check before downloading
                 if (trialID != -1 && userID != null) {
-                    NetworkController.getInstance().getPlan(trialID, userID);
+                    //NetworkController.getInstance().getPlan(trialID, userID);
                     //this will eventually result in a call back to this method
                 }
             }

@@ -12,7 +12,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.medavox.repeats.R;
-import com.medavox.repeats.network.NetworkController;
 
 /**@author Adam Howard
 @date 15/08/2016
@@ -34,10 +33,10 @@ public class DoseDueAlertService extends AlertService {
                         .DOSE_ID_TAG, -1);
         int noteID = doseID;
         NotificationCompat.Builder builder = getDefaultNotificationBuilder(res.getString(R.string.dose_due_notification_title), res.getString(R.string.dose_due_notification_text), noteID);
-        Intent swipeIgnoreIntent = new Intent(getApplicationContext(),
+        /*Intent swipeIgnoreIntent = new Intent(getApplicationContext(),
                 ReminderIgnoredService.class);
         builder.setDeleteIntent(PendingIntent.getService(getApplicationContext(), 0, swipeIgnoreIntent,
-                PendingIntent.FLAG_ONE_SHOT ));
+                PendingIntent.FLAG_ONE_SHOT ));*/
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(alarmSound);
@@ -54,9 +53,9 @@ public class DoseDueAlertService extends AlertService {
         else {
             NotificationManager noteMgr = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
             noteMgr.notify(noteID, note);
-            NetworkController.getInstance().postMonitor(Monitor.createMonitor(this,      //context
+            /*NetworkController.getInstance().postMonitor(Monitor.createMonitor(this,      //context
                                                 doseID,                                  //dose ID
-                                                PlatformCodes.REMINDER_STARTED));        //action
+                                                PlatformCodes.REMINDER_STARTED));        //action*/
         }
     }
 }

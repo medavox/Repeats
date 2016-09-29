@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.medavox.repeats.R;
 import com.medavox.repeats.application.Application;
 import com.medavox.repeats.utility.DateTime;
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 
 /**
  * @author 1
@@ -19,28 +19,28 @@ public class CompletedDose {
     public final static String DOSE_MISSED = "dose missed";
     public final static String DEVICE_ERROR = "device error";
 
-    @SerializedName("dose_id")
+    //@SerializedName("dose_id")
     private int dose_id;
 
     /**The time that this event occurred. Namely, the time the dose became missed (if missed),
      * or the time the dose was taken (if taken).*/
-    @SerializedName("effective_time")
+    //@SerializedName("effective_time")
     private long effectiveDate;
 
-    @SerializedName("quantity")
+    //@SerializedName("quantity")
     private int quantity;
 
-    @SerializedName("status")
+    //@SerializedName("status")
     private String status;//todo: replace this with enum, to allow for translations later
 
-    @SerializedName("error")
+    //@SerializedName("error")
     private String error;
 
 
-    @SerializedName("user_id")
+    //@SerializedName("user_id")
     private String userID;
 
-    @SerializedName("device_id")
+    //@SerializedName("device_id")
     private String deviceID;
 
     public CompletedDose(int dose_id, long effectiveDate, int quantity, String status, String error) {

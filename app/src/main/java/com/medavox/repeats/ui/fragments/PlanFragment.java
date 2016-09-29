@@ -22,7 +22,6 @@ import com.medavox.repeats.background.BackgroundService;
 import com.medavox.repeats.datamodels.IntendedDose;
 import com.medavox.repeats.events.UIMessageEvent;
 import com.medavox.repeats.adapters.IntendedDoseAdapter;
-import com.medavox.repeats.network.NetworkController;
 import com.medavox.repeats.ui.UIActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -112,19 +111,6 @@ public class PlanFragment extends UpdatableFragment {
         return sb.toString();
     }
 
-    @OnClick(R.id.editDeviceIdBtn)
-    public void onChangeDeviceIDPressed() {
-        if(UIActivity.getAppState() != UIActivity.AppStatus.CONNECTED
-        && UIActivity.getAppState() != UIActivity.AppStatus.DISPENSING
-        && UIActivity.getAppState() != UIActivity.AppStatus.FULL_DOSE_DISPENSED
-        && UIActivity.getAppState() != UIActivity.AppStatus.DISPENSE_PRESSED) {
-           owner.askForDeviceName(true);
-        }
-        else {
-            Toast.makeText(getActivity(), R.string.cant_change_device_id_while_connected_toast, Toast.LENGTH_LONG).show();
-        }
-    }
-
 
     @Override
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -153,14 +139,14 @@ public class PlanFragment extends UpdatableFragment {
                     //generate a fake plan for demos & debugging
                     IntendedDose fakeDose = IntendedDose.createDemoDoseDueIn(0);
                     Toast.makeText(owner, R.string.demo_plan_generated_toast, Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post(new DoseEvent(this, DoseEvent.DoseEventType.DOWNLOADED, fakeDose));
+                    //EventBus.getDefault().post(new DoseEvent(this, DoseEvent.DoseEventType.DOWNLOADED, fakeDose));
                     break;
 
                 default: //otherwise, download a plan from the network
                     SharedPreferences sp = owner.getSharedPreferences(owner.getString(R.string.shared_prefs_tag), Context.MODE_PRIVATE);
                     int trialID = sp.getInt(owner.getString(R.string.trial_id), owner.getResources().getInteger(R.integer.default_trial_id_value));
                     String jwt = sp.getString(owner.getString(R.string.jwt_token), null);
-                    NetworkController.getInstance().getDoseData(""+trialID);
+                    //NetworkController.getInstance().getDoseData(""+trialID);
             }
         }
     }

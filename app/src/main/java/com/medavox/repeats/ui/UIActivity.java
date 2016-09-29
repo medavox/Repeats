@@ -22,10 +22,9 @@ import com.medavox.repeats.application.Application;
 import com.medavox.repeats.backend.Backend;
 import com.medavox.repeats.backend.BackendHelper;
 import com.medavox.repeats.background.BackgroundService;
-import com.medavox.repeats.controllers.MedebottleController;
 import com.medavox.repeats.datamodels.IntendedDose;
+import com.medavox.repeats.events.Event;
 import com.medavox.repeats.events.UIMessageEvent;
-import com.medavox.repeats.network.NetworkController;
 import com.medavox.repeats.ui.fragments.EbottleFragment;
 import com.medavox.repeats.ui.fragments.PlanFragment;
 
@@ -36,7 +35,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import icepick.Icepick;
 
 /**@author Adam Howard
 @date 17/08/16*/
@@ -64,10 +62,6 @@ public abstract class UIActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        permissionSetUp();
-        setBluetooth(true);
-        askForDeviceName();  //check that device id has been set
-
     }
 
     @Override
@@ -123,6 +117,7 @@ public abstract class UIActivity extends AppCompatActivity {
 //before medication
         //name              is UI busy (uninterruptable with new UI messages)
         WAITING_TO_CHECK    (false),
+
         ERROR               (false),
         NO_PLAN             (false),
         NO_NEXT_DOSE        (false),
@@ -203,14 +198,10 @@ public abstract class UIActivity extends AppCompatActivity {
                 sendUpdateBroadcast = true;
                 break;
             case DISPENSE_PRESSED:
-                NetworkController.getInstance().postMonitor(Monitor.createMonitor(Application.getContext(),//context
-                        helper.getNextDueDose().getDoseID(),                //dose ID
-                        PlatformCodes.DISPENSE_PRESSED));            //action
+
                 break;
             case CONNECTED:
-                NetworkController.getInstance().postMonitor(Monitor.createMonitor(Application.getContext(),//context
-                        helper.getNextDueDose().getDoseID(),                //dose ID
-                        PlatformCodes.CONNECTED_TO_MED_EBOTTLE));            //action
+
                 break;
             case DISPENSING:
                 break;
@@ -224,215 +215,13 @@ public abstract class UIActivity extends AppCompatActivity {
         }
     }
 
-
-    public void askForDeviceName() {
-        askForDeviceName(false);
-    }
-
-    /**Asks the user to select the device ID from a pre-defined list.
-     * Won't ask if the value is set is sharedPreferences and parameter checkAnyway is false.
-     * @param checkAnyway whether to ask the user, even if the sharedPreferences value is set.*/
-    public String askForDeviceName(boolean checkAnyway) {
-        final SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_prefs_tag), 0);
-        final String[] IDs = getResources().getStringArray(R.array.device_ids);
-        if(!prefs.contains(getString(R.string.device_id)) || checkAnyway) {
-            //no device id, or we have to check again anyway
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Please choose your Device ID : ")
-                .setItems(R.array.device_ids, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //DatabaseHelper.getInstance(getApplicationContext()).insertInfo("deviceId", "prototype");
-                        //set deviceID preference upon user choice
-
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString(getString(R.string.device_id), IDs[which]);
-                        editor.apply();
-                        deviceId = IDs[which];
-                        EventBus.getDefault().post(new UIMessageEvent(this, PlanFragment.UI_MESSAGE_RECIPIENT_ID,
-                                PlanFragment.PlanFragmentTextViews.DEVICE_ID_TEXT, deviceId));
-                    }
-                });
-            deviceIdAlert = builder.create();
-            deviceIdAlert.show();
-
-        }else{//there is a deviceID set in sharedPreferences, so get that value
-            deviceId =  prefs.getString(getString(R.string.device_id), IDs[0]);//default to the first deviceID,
-            // if there is a problem reading from SharedPreferences
-        }
-        return deviceId;
-    }
-
-
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Icepick.saveInstanceState(this, outState);
     }
 
-    @TargetApi(23)
-    private void permissionSetUp(){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            if(this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Bluetooth permissions");
-                builder.setMessage("Allow this app to use bluetooth?");
-                builder.setPositiveButton(android.R.string.ok, null);
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    public void onDismiss(DialogInterface dialog) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-                    }
-                });
-                builder.show();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_COARSE_LOCATION: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
-                    builder.setMessage("Since location access has not been granted, this app will not be able to discover ble when in the background.");
-                    builder.setPositiveButton(android.R.string.ok, null);
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                        }
-
-                    });
-                    builder.show();
-                }
-            }
-        }
-    }
-
-    /**
-     * Switches on device bluetooth programmatically if not already on
-     * @param enable
-     * Boolean flag to either switch bluetooth on (true) or off (false)
-     * @return
-     * Returns true
-     */
-    public static boolean setBluetooth(boolean enable) {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        boolean isEnabled = bluetoothAdapter.isEnabled();
-        if (enable && !isEnabled) {
-            return bluetoothAdapter.enable();
-        }
-        else if(!enable && isEnabled) {
-            // return bluetoothAdapter.disable();
-        }
-        // No need to change bluetooth state
-        return true;
-    }
-
-    @Subscribe (threadMode = ThreadMode.BACKGROUND)
-    public void onMedebottleEvent(MedebottleEvent mbe) {
-        //Log.i("medebottle event", mbe.toString());
-
-        int doseID =-1;
-        Backend helper = BackendHelper.getInstance(this);
-        IntendedDose iDose = helper.getNextDueDose();
-        if(iDose != null) {
-            doseID = iDose.getDoseID();
-        }
-
-        switch(mbe.getEventType()) {
-            case CONNECTED:
-                changeAppStateTo(AppStatus.CONNECTED);
-                break;
-            case SINGLE_TABLET_DISPENSED:
-                if(iDose != null) {
-                    NetworkController.getInstance().postMonitor(Monitor.createMonitor(this, doseID, PlatformCodes.TABLET_DISPENSED));
-                }
-                break;
-            case DISPENSE_COMPLETE:
-                changeAppStateTo(AppStatus.FULL_DOSE_DISPENSED);
-                break;
-            case NOT_FOUND:
-                    NetworkController.getInstance().postMonitor(Monitor.createMonitor(this, doseID, PlatformCodes.MED_EBOTTLE_NOT_FOUND));
-                break;
-            case ERROR:
-                Log.i(TAG, "error while in app state:"+situation);
-                EventBus.getDefault().post(new UIMessageEvent(this,
-                EbottleFragment.UI_MESSAGE_RECIPIENT_ID,
-                EbottleFragment.EbottleFragmentTextViews.INSTRUCTIONS,
-                "An error has occured:\n"+mbe.getMessage()
-                        +"\nplease contact your eBottle provider"));
-                changeAppStateTo(AppStatus.ERROR);
-                break;
-        }
-    }
-
-    /**Event listener which handles dispense request results.
-     * @param dcr an Event describing whether or not the dispense request succeeded.
-     * If true, the medebottle dispenses a dose, and doseDispensed() is called.*/
-    @Subscribe (threadMode = ThreadMode.MAIN)
-    public void onDispenseConfirmationResult(DispenseConfirmationResult dcr) {
-        if(dcr.succeeded()) {
-            if(deviceId!=null) {
-                IntendedDose nextDose = BackendHelper.getInstance(this).getNextDueDose();
-                changeAppStateTo(AppStatus.DISPENSING);
-                MedebottleController.getInstance().startDispense(deviceId, nextDose.getQuantity());
-            }else{
-                Toast.makeText(this, "DeviceId is not set", Toast.LENGTH_SHORT).show();
-            }
-
-        }//incorrect request logic (eg, wrong PIN toasts) is now handled in specific T:DispenseStrategys
-    }
-
-    @Subscribe (threadMode = ThreadMode.BACKGROUND)
-    public void onDoseEvent(DoseEvent de) {
-        //Log.i("new plan event", npe.toString());
-
-        if(de.getEventType() == DoseEvent.DoseEventType.DOWNLOADED) {
-            IntendedDose[] doses = de.getDoses();
-
-            //add downloaded IntendedDoses to IntendedDoses table
-            BackendHelper.getInstance(this).addIntendedDoses(doses);
-        }
-        //whatever the event type, recheck the app state
-        //(this also updates the UI if necessary)
-        changeAppStateTo(AppStatus.WAITING_TO_CHECK);
-    }
-
-    /**
-     * Checks that this device supports bluetooth low energy.
-     */
-    protected void ensureBLESupported() {
-        if (!this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            //Toast.makeText(this, R.string.no_ble, Toast.LENGTH_LONG).show();
-            new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle) //  DOESN'T WORK ON SDK 19
-                //.setView(R.layout.dialog_pin)
-                .setTitle("Alert!")
-                .setMessage("Your device does not support Bluetooth Low Energy,"+
-                        " which is required for communicating with your Med eBottle.\n"+
-                        "Please install this app on another device in order to use your Med eBottle.")
-                .setIcon(R.mipmap.medicine_tab)
-                .show();
-        }
-    }
-
-    /**
-     * Checks that bluetooth is enabled on the device.
-     * @return
-     */
-    protected boolean isBLEEnabled() {
-        final BluetoothManager bluetoothManager = (BluetoothManager) this.getSystemService(Context.BLUETOOTH_SERVICE);
-        final BluetoothAdapter adapter = bluetoothManager.getAdapter();
-        return adapter != null && adapter.isEnabled();
-    }
-
-    /**
-     * Displays a dialog box to enable bluetooth manually.
-     */
-    protected void showBLEDialog() {
-        final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEvent(Event e){
+        //lol, do nowt
     }
 }

@@ -63,7 +63,10 @@ public class DelegatorActivity extends AppCompatActivity {
 
 
     }
-
+    public static Class getActivityToStart(Context c) {
+        return MainActivity.class;
+    }
+/*
     public static Class getActivityToStart(Context c) {
         SharedPreferences prefs = c.getSharedPreferences(c.getString(R.string.shared_prefs_tag), 0);
         boolean appHasBeenSetup = prefs.contains(c.getString(R.string.jwt_token));
@@ -87,7 +90,7 @@ public class DelegatorActivity extends AppCompatActivity {
             }
         }
     }
-
+*/
     @Override
     public void onStart() {
         super.onStart();

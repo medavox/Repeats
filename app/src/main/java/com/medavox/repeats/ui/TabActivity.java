@@ -14,8 +14,6 @@ import com.medavox.repeats.ui.fragments.QuestionsFragment;
 import com.medavox.repeats.ui.fragments.NetworkFragment;
 import com.medavox.repeats.ui.fragments.ViewPagerAdapter;
 
-import icepick.Icepick;
-
 /**Implements a multi-pane tabbed interface, for relatively technical users*/
 public class TabActivity extends UIActivity {
 
@@ -37,7 +35,6 @@ public class TabActivity extends UIActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
-        Icepick.restoreInstanceState(this, savedInstanceState);
         setUpToolbar();
         setUpViewPager();
         setUpTabLayout();
@@ -63,7 +60,7 @@ public class TabActivity extends UIActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar()!=null) {
-            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.elucid_logo_white_trans);
+            //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.elucid_logo_white_trans);
             getSupportActionBar().setTitle(R.string.actionBarTitle);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

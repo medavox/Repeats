@@ -15,13 +15,9 @@ import com.medavox.repeats.application.Application;
 import com.medavox.repeats.backend.Backend;
 import com.medavox.repeats.backend.BackendHelper;
 import com.medavox.repeats.background.BackgroundService;
-import com.medavox.repeats.controllers.MedebottleController;
 import com.medavox.repeats.datamodels.CompletedDose;
 import com.medavox.repeats.datamodels.IntendedDose;
-import com.medavox.repeats.dispenser.DispenseRequestFactory;
-import com.medavox.repeats.dispenser.DispenseRequestStrategy;
 import com.medavox.repeats.events.UIMessageEvent;
-import com.medavox.repeats.network.NetworkController;
 import com.medavox.repeats.ui.UIActivity;
 import com.medavox.repeats.utility.DateTime;
 
@@ -51,7 +47,7 @@ public class EbottleFragment extends UpdatableFragment {
     @BindView(R.id.prevDoseQuan)    TextView    lastDoseQuantityTV;//quantity due
     @BindView(R.id.prevDoseDate)    TextView    lastDoseTimeAgoTV;
 
-    @BindView(R.id.buttonDispense)  Button      buttonDispense;
+    //@BindView(R.id.buttonDispense)  Button      buttonDispense;
     @BindView(R.id.buttonTaken)     Button      buttonTaken;
 
 
@@ -91,35 +87,6 @@ public class EbottleFragment extends UpdatableFragment {
         if(uime.getRecipientID().equals(EbottleFragment.UI_MESSAGE_RECIPIENT_ID)) {
             TextView tv = getTextViewFromEnum((EbottleFragmentTextViews)uime.getDetails());
             setInstructionText(uime.getMessageText(), tv);
-        }
-    }
-
-    @Subscribe (threadMode = ThreadMode.BACKGROUND)
-    public void onMedebottleEvent(MedebottleEvent mbe) {
-        Activity a = getActivity();
-        switch(mbe.getEventType()) {
-            case CONNECTED:
-                setInstructionText(a.getString(R.string.bottle_connected_and_dispensing), instructionsTextView);
-            break;
-            case NOT_FOUND:
-                setInstructionText(a.getString(R.string.bottle_not_found), instructionsTextView);
-                break;
-            case SINGLE_TABLET_DISPENSED:
-                setInstructionText("Dispensing tablet " + mbe.getDoseNumber() + " of " + mbe.getDoseCounter(), instructionsTextView);
-                break;
-
-            case DISPENSE_COMPLETE:
-                boolean plural = mbe.getDoseCounter() > 1;
-                int messageID = (plural ? R.string.tablets_dispensed : R.string.tablet_dispensed);
-
-                setInstructionText(a.getString(messageID), instructionsTextView);
-                break;
-            case CONNECTING:
-                setInstructionText(a.getString(R.string.searching_for_bottle), instructionsTextView);
-                break;
-            case ERROR:
-                setInstructionText("An error has occurred.\n"+mbe.getMessage(), instructionsTextView);
-                break;
         }
     }
 
@@ -263,7 +230,7 @@ public class EbottleFragment extends UpdatableFragment {
      * Gets a DispenseRequestStrategy from DispenseStategyFactory,
      * then defers user dispense request.
      */
-    @OnClick(R.id.buttonDispense)
+    //@OnClick(R.id.buttonDispense)
     public void dispensePressed() {
         owner.doseSwallowed = 0; //reset back to 0
         //Log.i(TAG, "owner's state:"+owner.getAppState());
@@ -274,10 +241,10 @@ public class EbottleFragment extends UpdatableFragment {
                 //rouse the app from its errorful torpor and respond to the user
             case DOSE_DUE_NOW:
                 UIActivity.changeAppStateTo(UIActivity.AppStatus.DISPENSE_PRESSED);
-                DispenseRequestStrategy drs = DispenseRequestFactory.getDispenseStrategy(DispenseRequestStrategy.DispenseType.NONE);
-                if( drs != null) {
+                //DispenseRequestStrategy drs = DispenseRequestFactory.getDispenseStrategy(DispenseRequestStrategy.DispenseType.NONE);
+                /*if( drs != null) {
                     drs.requestDispense(getActivity());
-                }
+                }*/
 
                 break;
 
@@ -320,7 +287,7 @@ public class EbottleFragment extends UpdatableFragment {
     public void takenPressed() {
         if(UIActivity.getAppState() == UIActivity.AppStatus.FULL_DOSE_DISPENSED) {
             //disconnect medebottle
-            MedebottleController.getInstance().disconnect();
+            //MedebottleController.getInstance().disconnect();
             if(Application.getBuildMode() != Application.BuildMode.DEBUG) {
                 Backend db = BackendHelper.getInstance(getActivity());
                 IntendedDose justDoneDose = db.getNextDueDose();
@@ -337,7 +304,7 @@ public class EbottleFragment extends UpdatableFragment {
                 //String patientID = sp.getString(getString(R.string.PatientID), getString(R.string.DefaultPatientIDValue));
 
                 //send completed dose to the platform
-                NetworkController.getInstance().postDoseData(doneDose);
+                //NetworkController.getInstance().postDoseData(doneDose);
                 /*
                 NetworkController.sendMedicationAdministration(
                         MedicationAdministrationFactory.getJSON(resourceIdentifier,
