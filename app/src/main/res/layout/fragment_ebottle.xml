@@ -1,0 +1,233 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ebottle_fragment"
+
+    >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:background="#f4f8ea">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous dose"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#9919B5FE"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prevDoseTaken"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prevDoseQuan"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prevDoseDate"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#D3D3D3" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next dose"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#9919B5FE"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nextDoseDate"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nextDoseQuan"
+
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center_horizontal"
+ />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nextDoseDue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:layout_gravity="center"
+                android:paddingBottom="10dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#D3D3D3"
+        android:layout_weight="0" />
+
+    <LinearLayout
+          android:layout_width="fill_parent"
+          android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+          <TextView
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:textColor="#4C5053"
+              android:textSize="20sp"
+              android:id="@+id/pill_instruct"
+              android:typeface="normal"
+              android:textStyle="bold"
+              android:singleLine="false"
+              android:layout_marginLeft="5dp"
+              android:layout_marginRight="5dp"
+              android:gravity="center"
+              android:layout_gravity="center"
+              >
+
+          </TextView>
+          
+      </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#D3D3D3"
+        android:layout_weight="0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#f4f8ea"
+            android:paddingTop="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="#93BB36"
+                android:gravity="center"
+                android:text="Dispense"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="#93BB36"
+                android:gravity="center_horizontal"
+                android:text="Taken"
+                android:layout_gravity="left"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:baselineAligned="false"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:paddingBottom="60dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center">
+            <!--<Button
+                android:id="@+id/buttonDispense"
+                android:layout_height="130dp"
+                android:clickable="true"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="bottom"
+                android:background="@mipmap/button_request"
+                android:layout_width="130dp"
+
+                android:gravity="center" />-->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/buttonTaken"
+                android:layout_height="130dp"
+                android:clickable="true"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="bottom"
+                android:background="@mipmap/button_taken"
+                android:layout_width="130dp"
+                android:gravity="center" />
+            </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+

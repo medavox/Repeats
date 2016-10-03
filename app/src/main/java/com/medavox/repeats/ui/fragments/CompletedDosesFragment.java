@@ -11,7 +11,7 @@ import com.medavox.repeats.R;
 import com.medavox.repeats.backend.Backend;
 import com.medavox.repeats.backend.BackendHelper;
 import com.medavox.repeats.datamodels.CompletedDose;
-import com.medavox.repeats.adapters.CompletedDoseAdapter;
+import com.medavox.repeats.list_adapters.CompletedDoseAdapter;
 
 import java.util.List;
 

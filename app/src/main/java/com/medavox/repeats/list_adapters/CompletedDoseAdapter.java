@@ -1,4 +1,4 @@
-package com.medavox.repeats.adapters;
+package com.medavox.repeats.list_adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

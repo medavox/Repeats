@@ -21,10 +21,9 @@ import com.medavox.repeats.backend.BackendHelper;
 import com.medavox.repeats.background.BackgroundService;
 import com.medavox.repeats.datamodels.IntendedDose;
 import com.medavox.repeats.events.UIMessageEvent;
-import com.medavox.repeats.adapters.IntendedDoseAdapter;
+import com.medavox.repeats.list_adapters.IntendedDoseAdapter;
 import com.medavox.repeats.ui.UIActivity;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 

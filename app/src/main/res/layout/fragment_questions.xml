@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context="com.elucid.profile.DeviceFragment">
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:text="I am feeling"
+    android:id="@+id/questionTitle"
+    android:layout_marginTop="20dp"
+    android:layout_marginLeft="20dp"
+    android:textSize="25sp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="OK"
+               android:layout_gravity="center_horizontal"
+               android:id="@+id/option1"
+               android:clickable="true"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Drowsy"
+                android:id="@+id/option2"
+                android:clickable="true"/>
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="In pain"
+                android:id="@+id/option3"
+                android:clickable="true"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

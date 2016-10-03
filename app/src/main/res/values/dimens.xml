@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="app_bar_height">120dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <!-- On Android 5 the background is drawn behind the navigation bar. In order to put the 'Wireless by Nordic' text in the middle on phones in landscape mode we must set the margin. -->
+
+
+    <!-- Custom dims for tab-->
+</resources>

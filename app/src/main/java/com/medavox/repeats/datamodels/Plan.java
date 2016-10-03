@@ -3,8 +3,7 @@ package com.medavox.repeats.datamodels;
 //import com.google.gson.annotations.SerializedName;
 
 /**
- * @author adam
-@date 23/09/16
+ * @author Adam Howard
  */
 
 public class Plan {
