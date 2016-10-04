@@ -3,10 +3,7 @@ package com.medavox.repeats.datamodels;
 import com.medavox.repeats.utility.DateTime;
 //import com.google.gson.annotations.SerializedName;
 
-/**
- * @author 1
-@date 2
- */
+
 public class IntendedDose {
 
 //    @SerializedName("dose_id")

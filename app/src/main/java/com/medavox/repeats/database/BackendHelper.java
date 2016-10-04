@@ -14,10 +14,6 @@ import com.medavox.repeats.datamodels.IntendedDose;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author jamesburnstone
-@date 09/08/2016
- */
 public class BackendHelper extends SQLiteOpenHelper implements Backend {
 
 /**Common column names between both tables*/

@@ -18,12 +18,6 @@ public class MyReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-     /*   WakeLocker.acquire(context);
-        Log.d("JAMES_TEST", "APP in onReceive. Acquiring wakelock. Starting Dose alert");
-    	Intent i = new Intent();
-        i.setClassName("com.elucid.medi", "com.elucid.medi.activities.DoseAlert");
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);*/
         switch(intent.getAction()) {
             case "android.intent.action.BOOT_COMPLETED":
                 //re-add alarms for pending doses after device reboot

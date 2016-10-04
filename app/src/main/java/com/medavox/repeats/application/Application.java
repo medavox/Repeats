@@ -3,10 +3,6 @@ package com.medavox.repeats.application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * @author jamesburnstone
-@date 23/07/2016
- */
 public class Application extends android.app.Application {
 
     /**change this manually to change app behaviour,

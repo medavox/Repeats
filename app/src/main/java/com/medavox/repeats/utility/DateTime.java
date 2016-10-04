@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @author jamesburnstone
-@date 04/05/2016
+ * @author Adam Howard
+@date 04/07/2016
  */
 public class DateTime {
 
@@ -90,75 +90,5 @@ public class DateTime {
         String ret = (amount> 0 ? amount+" "+unit : "");
         ret += (amount > 1 ? "s" : "");
         return ret;
-    }
-
-//----------------------------------- old methods -------------------------------------
-    public static String getTimeStamp(){
-        cal.setTimeInMillis(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZ");
-        return sdf.format(cal.getTime());
-    }
-
-    public static String getModifiedTime(int mod){
-        Calendar c = cal;
-        c.add(Calendar.HOUR, mod);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
-        String formattedTime = (df.format(c.getTime())).substring(11,17);
-        return formattedTime;
-    }
-
-
-    public static String getCurrentValue(String identifier) {
-
-        cal.setTimeInMillis(System.currentTimeMillis());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
-        String formattedDate = df.format(cal.getTime());
-        if(identifier.equalsIgnoreCase(DATETIME)){
-
-            return formattedDate;
-
-        }else if(identifier.equalsIgnoreCase(TIME)){
-
-            return formattedDate.substring(11,19);
-
-        }else if(identifier.equalsIgnoreCase(DATE)){
-
-            return formattedDate.substring(0,10);
-
-        }else{
-            return null;
-        }
-    }
-
-    public static int[] getTimeDifference(String dueDate, String dueTime){
-        String dateStop = dueDate + " " + dueTime;
-        String dateStart = getCurrentValue("datetime");
-
-        //HH converts hour in 24 hours format (0-23), day calculation
-        SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
-
-        Date d1 = null;
-        Date d2 = null;
-
-        try {
-            d1 = format.parse(dateStart);
-            d2 = format.parse(dateStop);
-
-            //in milliseconds
-            long diff = d2.getTime() - d1.getTime();
-
-            int diffSeconds =(int) (diff / 1000 % 60);
-            int diffMinutes =(int)( diff / (60 * 1000) % 60);
-            int diffHours = (int)(diff / (60 * 60 * 1000) % 24);
-            int diffDays =(int) (diff / (24 * 60 * 60 * 1000));
-
-            int[]timeDiffs = {diffDays, diffHours, diffMinutes, diffSeconds};
-
-            return timeDiffs;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

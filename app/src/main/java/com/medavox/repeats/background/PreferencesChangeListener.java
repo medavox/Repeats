@@ -9,7 +9,7 @@ import com.medavox.repeats.R;
 import com.medavox.repeats.ui.DelegatorActivity;
 
 /**
- * @author adam
+ * @author Adam Howard
 @date 26/09/16
  */
 

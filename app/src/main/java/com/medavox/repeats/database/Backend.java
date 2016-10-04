@@ -5,6 +5,9 @@ import com.medavox.repeats.datamodels.IntendedDose;
 
 import java.util.List;
 
+
+/**@author Adam Howard
+ * */
 public interface Backend {
 
     int getIntendedDoseCount();

@@ -28,10 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-/**
- * @author jamesburnstone
-@date 18/12/2015
- */
 /**The main dashboard for taking doses. Provides a button to take medication, along with information
  * about the time the last dose was completed (taken or missed), and the time the next dose is due*/
 public class EbottleFragment extends UpdatableFragment {

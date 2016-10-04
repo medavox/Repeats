@@ -11,7 +11,9 @@ import android.util.Log;
 import com.medavox.repeats.R;
 import com.medavox.repeats.utility.DateTime;
 
-/**Service which is fired from an Alarm, at the end of a due dose time.
+/**
+ * @author Adam Howard
+ * Service which is fired from an Alarm, at the end of a due dose time.
  * Performs the following tasks:
  * <ul>
  *     <li>sends a message to the platform about the missed dose</li>
