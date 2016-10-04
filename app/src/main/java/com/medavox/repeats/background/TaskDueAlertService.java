@@ -2,7 +2,6 @@ package com.medavox.repeats.background;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -16,12 +15,12 @@ import com.medavox.repeats.R;
 /**@author Adam Howard
 @date 15/08/2016
 Fired by an alarm, when a new dose becomes due.*/
-public class DoseDueAlertService extends AlertService {
-    public DoseDueAlertService() {
-        super("DoseDueAlertService");
+public class TaskDueAlertService extends AlertService {
+    public TaskDueAlertService() {
+        super("TaskDueAlertService");
     }
 
-    private static final String TAG = DoseDueAlertService.class.toString();
+    private static final String TAG = TaskDueAlertService.class.toString();
 
     @Override
     public void onHandleIntent(Intent intent) {

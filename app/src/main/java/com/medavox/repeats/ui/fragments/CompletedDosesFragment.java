@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.medavox.repeats.R;
-import com.medavox.repeats.backend.Backend;
-import com.medavox.repeats.backend.BackendHelper;
+import com.medavox.repeats.database.Backend;
+import com.medavox.repeats.database.BackendHelper;
 import com.medavox.repeats.datamodels.CompletedDose;
-import com.medavox.repeats.list_adapters.CompletedDoseAdapter;
+import com.medavox.repeats.list_adapters.CompletedTaskAdapter;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class CompletedDosesFragment extends UpdatableFragment {
             @Override
             public void run() {
                 if(doseList!=null) {
-                    BaseAdapter adapter = new CompletedDoseAdapter(owner, doseList);
+                    BaseAdapter adapter = new CompletedTaskAdapter(owner, doseList);
                     listView.setAdapter(adapter);
                 }
             }

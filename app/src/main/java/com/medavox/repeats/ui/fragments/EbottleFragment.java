@@ -1,6 +1,5 @@
 package com.medavox.repeats.ui.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +11,8 @@ import android.widget.Toast;
 
 import com.medavox.repeats.R;
 import com.medavox.repeats.application.Application;
-import com.medavox.repeats.backend.Backend;
-import com.medavox.repeats.backend.BackendHelper;
+import com.medavox.repeats.database.Backend;
+import com.medavox.repeats.database.BackendHelper;
 import com.medavox.repeats.background.BackgroundService;
 import com.medavox.repeats.datamodels.CompletedDose;
 import com.medavox.repeats.datamodels.IntendedDose;

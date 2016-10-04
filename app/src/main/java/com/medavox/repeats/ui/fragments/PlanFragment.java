@@ -16,12 +16,12 @@ import android.widget.Toast;
 
 import com.medavox.repeats.R;
 import com.medavox.repeats.application.Application;
-import com.medavox.repeats.backend.Backend;
-import com.medavox.repeats.backend.BackendHelper;
+import com.medavox.repeats.database.Backend;
+import com.medavox.repeats.database.BackendHelper;
 import com.medavox.repeats.background.BackgroundService;
 import com.medavox.repeats.datamodels.IntendedDose;
 import com.medavox.repeats.events.UIMessageEvent;
-import com.medavox.repeats.list_adapters.IntendedDoseAdapter;
+import com.medavox.repeats.list_adapters.IntendedTaskAdapter;
 import com.medavox.repeats.ui.UIActivity;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -39,7 +39,7 @@ public class PlanFragment extends UpdatableFragment {
     private ListView listView;
     private boolean viewCreated = false;
     private Resources res;
-    IntendedDoseAdapter adapter;
+    IntendedTaskAdapter adapter;
     public PlanFragment CustomListView = null;
     @BindView(R.id.downloadPlanBtn) Button  downloadButton;
     @BindView(R.id.deletePlanBtn) Button  deleteButton;
@@ -92,7 +92,7 @@ public class PlanFragment extends UpdatableFragment {
                 userIdValue.setText(sp.getString(getString(R.string.user_id), owner.getString(R.string.default_user_id_value)));
                 //planIdValue.setText(sp.getString(getString(R.string.plan_id), res.getInteger(R.integer.default_plan_id_value)));
                 if(doseList!=null) {
-                    adapter = new IntendedDoseAdapter(owner, doseList);
+                    adapter = new IntendedTaskAdapter(owner, doseList);
                     listView.setAdapter(adapter);
                 }
             }

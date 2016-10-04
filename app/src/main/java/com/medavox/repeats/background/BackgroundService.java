@@ -10,16 +10,13 @@ import android.os.IBinder;
 
 import android.util.Log;
 import com.medavox.repeats.application.Application;
-import com.medavox.repeats.backend.Backend;
-import com.medavox.repeats.backend.BackendHelper;
-import com.medavox.repeats.datamodels.CompletedDose;
+import com.medavox.repeats.database.Backend;
+import com.medavox.repeats.database.BackendHelper;
 import com.medavox.repeats.datamodels.IntendedDose;
 import com.medavox.repeats.utility.DateTime;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.EventBusException;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -174,13 +171,13 @@ public class BackgroundService extends Service {
             //(using the current seconds adds some jitter to the alarm firing time)
 
             //create dose due alarm -- in debug mode, the alarm is set for right now
-            createAlarm(Application.getContext(), DoseDueAlertService.class, cal.getTimeInMillis(), iDose);
+            createAlarm(Application.getContext(), TaskDueAlertService.class, cal.getTimeInMillis(), iDose);
 
             //in debug, set missed alarm to be a minute after due alarm
             cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) + 1);
 
             //create dose missed alarm
-            createAlarm(Application.getContext(), DoseMissedAlertService.class, cal.getTimeInMillis(), iDose);
+            createAlarm(Application.getContext(), TaskMissedAlertService.class, cal.getTimeInMillis(), iDose);
             return true;
         }
         else if(iDose != null) {//and also BuildMode != DEBUG
@@ -190,11 +187,11 @@ public class BackgroundService extends Service {
             }
             //create dose due alarm
             cal.setTimeInMillis(iDose.getTimeStart());
-            createAlarm(Application.getContext(), DoseDueAlertService.class, cal.getTimeInMillis(), iDose);
+            createAlarm(Application.getContext(), TaskDueAlertService.class, cal.getTimeInMillis(), iDose);
 
             //create dose missed alarm
             cal.setTimeInMillis(iDose.getTimeEnd());
-            createAlarm(Application.getContext(), DoseMissedAlertService.class, cal.getTimeInMillis(), iDose);
+            createAlarm(Application.getContext(), TaskMissedAlertService.class, cal.getTimeInMillis(), iDose);
         }
         return iDose != null;
     }
@@ -212,10 +209,10 @@ public class BackgroundService extends Service {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0,
                 intent, PendingIntent.FLAG_ONE_SHOT);
         int doseID = iDose.getDoseID();
-        if(cls == DoseDueAlertService.class) {
+        if(cls == TaskDueAlertService.class) {
             doseAlerts.put(doseID, pendingIntent);
         }
-        else if(cls == DoseMissedAlertService.class) {
+        else if(cls == TaskMissedAlertService.class) {
             doseAlerts.put(0-doseID, pendingIntent);
         }
 

@@ -1,4 +1,4 @@
-package com.medavox.repeats.backend;
+package com.medavox.repeats.database;
 
 import com.medavox.repeats.datamodels.CompletedDose;
 import com.medavox.repeats.datamodels.IntendedDose;

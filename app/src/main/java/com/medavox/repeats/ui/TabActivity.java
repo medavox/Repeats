@@ -10,7 +10,6 @@ import com.medavox.repeats.R;
 import com.medavox.repeats.ui.fragments.CompletedDosesFragment;
 import com.medavox.repeats.ui.fragments.PlanFragment;
 import com.medavox.repeats.ui.fragments.EbottleFragment;
-import com.medavox.repeats.ui.fragments.QuestionsFragment;
 import com.medavox.repeats.ui.fragments.NetworkFragment;
 import com.medavox.repeats.ui.fragments.ViewPagerAdapter;
 
@@ -88,7 +87,6 @@ public class TabActivity extends UIActivity {
         adapter.addFragment(planFragment, "Due Doses");
         adapter.addFragment(new CompletedDosesFragment(), "Taken Doses");
         adapter.addFragment(new NetworkFragment(), "Network");
-        adapter.addFragment(new QuestionsFragment(), "Questions");
         viewPager.setAdapter(adapter);
     }
 

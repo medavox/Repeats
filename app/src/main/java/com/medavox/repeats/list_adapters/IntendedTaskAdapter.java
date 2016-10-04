@@ -19,7 +19,7 @@ import butterknife.BindView;
  * @author jamesburnstone
 @date 03/07/2016
  */
-public class IntendedDoseAdapter extends BaseAdapter {
+public class IntendedTaskAdapter extends BaseAdapter {
     @BindView(R.id.intended_row_date)        TextView    timeDueTV;
     @BindView(R.id.intended_row_time_start)   TextView    textViewTimeStart;
     @BindView(R.id.intended_row_time_end)     TextView    textViewTimeEnd;
@@ -32,7 +32,7 @@ public class IntendedDoseAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Context context;
 
-    public IntendedDoseAdapter(Context c, List<IntendedDose> d) {
+    public IntendedTaskAdapter(Context c, List<IntendedDose> d) {
         this.context = c;
         //Take passed values
         data = d;
@@ -58,11 +58,11 @@ public class IntendedDoseAdapter extends BaseAdapter {
         IntendedDose dose = data.get(position);/*
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(dose.getTimeStart());
-        Log.i("IntendedDoseAdapter", "time start:"+ cal.getTime());
+        Log.i("IntendedTaskAdapter", "time start:"+ cal.getTime());
         cal.setTimeInMillis(dose.getTimeEnd());
-        Log.i("IntendedDoseAdapter", "time end:"+ cal.getTime());
+        Log.i("IntendedTaskAdapter", "time end:"+ cal.getTime());
         cal.setTimeInMillis(dose.getTimeDue());
-        Log.i("IntendedDoseAdapter", "time due:"+ cal.getTime());*/
+        Log.i("IntendedTaskAdapter", "time due:"+ cal.getTime());*/
         View view = convertView;
 
         if(view == null) {

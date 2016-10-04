@@ -1,32 +1,22 @@
 package com.medavox.repeats.ui;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.medavox.repeats.R;
 import com.medavox.repeats.application.Application;
-import com.medavox.repeats.backend.Backend;
-import com.medavox.repeats.backend.BackendHelper;
+import com.medavox.repeats.database.Backend;
+import com.medavox.repeats.database.BackendHelper;
 import com.medavox.repeats.background.BackgroundService;
 import com.medavox.repeats.datamodels.IntendedDose;
 import com.medavox.repeats.events.Event;
 import com.medavox.repeats.events.UIMessageEvent;
 import com.medavox.repeats.ui.fragments.EbottleFragment;
-import com.medavox.repeats.ui.fragments.PlanFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

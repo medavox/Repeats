@@ -17,7 +17,7 @@ import java.util.List;
  * @author Adam Howard
 @date 08/09/2016
  */
-public class CompletedDoseAdapter extends BaseAdapter {
+public class CompletedTaskAdapter extends BaseAdapter {
 
     /**Our list of Intended Doses*/
     private List<CompletedDose> data;
@@ -26,7 +26,7 @@ public class CompletedDoseAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Context context;
 
-    public CompletedDoseAdapter(Context c, List<CompletedDose> d) {
+    public CompletedTaskAdapter(Context c, List<CompletedDose> d) {
         this.context = c;
         //Take passed values
         data = d;
@@ -51,7 +51,7 @@ public class CompletedDoseAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         CompletedDose dose = data.get(position);
 
-        //Log.i("CompletedDoseAdapter", "convertView:"+convertView);
+        //Log.i("CompletedTaskAdapter", "convertView:"+convertView);
         View view = convertView;
 
         if(view == null) {

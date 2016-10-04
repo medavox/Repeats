@@ -55,11 +55,11 @@
 
         <service android:name=".background.BackgroundService" />
         <service
-            android:name=".background.DoseDueAlertService"
+            android:name=".background.TaskDueAlertService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".background.DoseMissedAlertService"
+            android:name=".background.TaskMissedAlertService"
             android:enabled="true"
             android:exported="true" />
 

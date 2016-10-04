@@ -20,12 +20,12 @@ import com.medavox.repeats.utility.DateTime;
  *     <li>creates an alarm for the next due dose, if it hasn't been already</li>
  * </ul>
  * */
-public class DoseMissedAlertService extends AlertService {
+public class TaskMissedAlertService extends AlertService {
 
-    private static final String TAG = DoseMissedAlertService.class.toString();
+    private static final String TAG = TaskMissedAlertService.class.toString();
 
-    public DoseMissedAlertService() {
-        super("DoseMissedAlertService");
+    public TaskMissedAlertService() {
+        super("TaskMissedAlertService");
     }
 
     @Override

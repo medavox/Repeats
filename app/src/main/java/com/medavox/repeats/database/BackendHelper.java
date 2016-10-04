@@ -1,4 +1,4 @@
-package com.medavox.repeats.backend;
+package com.medavox.repeats.database;
 
 import android.content.Context;
 import android.database.Cursor;
