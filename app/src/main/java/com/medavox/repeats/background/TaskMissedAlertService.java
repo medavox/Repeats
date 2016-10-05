@@ -34,8 +34,8 @@ public class TaskMissedAlertService extends AlertService {
     public void onHandleIntent(Intent intent) {
         Log.i(TAG, "Dose Missed Alert Service started");
         Resources res = getApplicationContext().getResources();
-        String title = res.getString(R.string.doseMissedNotificationTitle);
-        String text = res.getString(R.string.doseMissedNotificationText);
+        String title = res.getString(R.string.taskMissedNotificationTitle);
+        String text = res.getString(R.string.taskMissedNotificationText);
 
         int missedDoseID = intent.getIntExtra(BackgroundService.DOSE_ID_TAG, -1);
         long missedDoseEndTime = intent.getLongExtra(BackgroundService.DOSE_END_TIME_TAG, -1);

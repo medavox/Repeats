@@ -22,7 +22,7 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="@string/userIdLabel"
+            android:text="lol"
             android:layout_weight="1"
             android:layout_gravity="left|center" />
 
@@ -52,7 +52,7 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="@string/planIdLabel"
+            android:text="lol"
             android:layout_weight="1"
             android:layout_gravity="center|right" />
         <TextView

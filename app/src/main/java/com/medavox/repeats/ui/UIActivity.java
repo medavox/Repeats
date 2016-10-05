@@ -34,13 +34,9 @@ import java.util.TimerTask;
  * UI implementations should override this class in order to manage existing fragments and app components,
  * such as bluetooth, eBottle and network communication.*/
 public abstract class UIActivity extends AppCompatActivity {
-//todo: handle app lifecycle methods (such as pausing) in an intelligent way, specific to us
     private static final String TAG = "UIActivity";
-    protected static final int  REQUEST_ENABLE_BT = 2;
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;  //Needed for android 6 new permissions
     private static AppStatus situation = AppStatus.WAITING_TO_CHECK;
 
-    protected String deviceId;
     protected AlertDialog deviceIdAlert;
     protected Timer myTimer;
 
@@ -66,8 +62,6 @@ public abstract class UIActivity extends AppCompatActivity {
                 EventBus.getDefault().post(new UIMessageEvent(this, UIMessageEvent.BroadcastMessages.UPDATE));
             }
         }, 0, 60000);
-
-        deviceId = sp.getString(getString(R.string.device_id), getString(R.string.default_device_id_value));
     }
 
     @Override
@@ -96,10 +90,6 @@ public abstract class UIActivity extends AppCompatActivity {
         if(deviceIdAlert!=null) {
             deviceIdAlert.dismiss();
         }
-    }
-
-    public String getDeviceId() {
-        return deviceId;
     }
 
     /**The finite set of states that the app can be in.*/

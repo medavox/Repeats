@@ -31,7 +31,7 @@ public class TaskDueAlertService extends AlertService {
                 BackgroundService
                         .DOSE_ID_TAG, -1);
         int noteID = doseID;
-        NotificationCompat.Builder builder = getDefaultNotificationBuilder(res.getString(R.string.dose_due_notification_title), res.getString(R.string.dose_due_notification_text), noteID);
+        NotificationCompat.Builder builder = getDefaultNotificationBuilder(res.getString(R.string.task_due_notification_title), res.getString(R.string.task_due_notification_text), noteID);
         /*Intent swipeIgnoreIntent = new Intent(getApplicationContext(),
                 ReminderIgnoredService.class);
         builder.setDeleteIntent(PendingIntent.getService(getApplicationContext(), 0, swipeIgnoreIntent,
