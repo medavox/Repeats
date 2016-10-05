@@ -51,5 +51,5 @@ dependencies {
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    //compile 'com.android.support:recyclerview-v7:24.2.1'
 }
