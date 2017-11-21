@@ -17,7 +17,7 @@ import java.util.List;
  * @author Adam Howard
 @date 08/09/2016
  */
-public class CompletedTaskAdapter extends BaseAdapter {
+public class ActiveTasksAdapter extends BaseAdapter {
 
     /**Our list of Intended Doses*/
     private List<CompletedDose> data;
@@ -26,7 +26,7 @@ public class CompletedTaskAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Context context;
 
-    public CompletedTaskAdapter(Context c, List<CompletedDose> d) {
+    public ActiveTasksAdapter(Context c, List<CompletedDose> d) {
         this.context = c;
         //Take passed values
         data = d;

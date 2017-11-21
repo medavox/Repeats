@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
 import com.medavox.repeats.R;
-import com.medavox.repeats.ui.DelegatorActivity;
+import com.medavox.repeats.ui.MainActivity;
 
 /**@author Adam Howard
 @date 15/08/2016
@@ -26,7 +26,7 @@ public abstract class AlertService extends IntentService {
 
         //build intent to return to video, on tapping notification
         Intent contentIntent = new Intent(getApplicationContext(),
-                DelegatorActivity.class).putExtra(STARTED_FROM_TAG, id);
+                MainActivity.class);//.putExtra(STARTED_FROM_TAG, id);
         contentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         noteBuilder

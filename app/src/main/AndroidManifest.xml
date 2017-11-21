@@ -33,26 +33,6 @@
             android:value="1" />
 
         <activity
-            android:name=".ui.DelegatorActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.TabActivity"
-            android:label="Main Tabbed Activity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.elucid.medi.activities.TabActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.SinglePageActivity"
             android:label="@string/title_activity_single_page"
             android:screenOrientation="portrait"

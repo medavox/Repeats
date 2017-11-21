@@ -11,7 +11,8 @@ import com.medavox.repeats.R;
 import com.medavox.repeats.database.Backend;
 import com.medavox.repeats.database.BackendHelper;
 import com.medavox.repeats.datamodels.CompletedDose;
-import com.medavox.repeats.list_adapters.CompletedTaskAdapter;
+import com.medavox.repeats.datamodels.Task;
+import com.medavox.repeats.list_adapters.ActiveTasksAdapter;
 
 import java.util.List;
 
@@ -22,21 +23,20 @@ import butterknife.ButterKnife;
  * @author Adam Howard
 @date 05/09/16
  */
-public class CompletedDosesFragment extends UpdatableFragment {
+public class ActiveTasksFragment extends UpdatableFragment {
 
-    @BindView(R.id.completed_dose_list)     ListView listView;
+    @BindView(R.id.active_task_listview)     ListView listView;
 
     @Override
     public void updateUI() {
         Backend helper = BackendHelper.getInstance(owner);
-        //Log.i("CompletedDoseFragment", "CompletedDoseFragment.updateUI() called");
-        final List<CompletedDose> doseList = helper.getAllCompletedDoses();
+        final List<Task> doseList = helper.getAllCompletedDoses();
 
         owner.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(doseList!=null) {
-                    BaseAdapter adapter = new CompletedTaskAdapter(owner, doseList);
+                    BaseAdapter adapter = new ActiveTasksAdapter(owner, doseList);
                     listView.setAdapter(adapter);
                 }
             }

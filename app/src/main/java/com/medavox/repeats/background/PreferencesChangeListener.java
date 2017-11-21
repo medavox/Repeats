@@ -1,12 +1,8 @@
 package com.medavox.repeats.background;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import com.medavox.repeats.R;
-import com.medavox.repeats.ui.DelegatorActivity;
 
 /**
  * @author Adam Howard
@@ -42,7 +38,7 @@ public class PreferencesChangeListener implements SharedPreferences.OnSharedPref
             prefsChangeListener = new PreferencesChangeListener();
             StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
 
-            Log.i(prefsChangeListener.TAG, "instance gotten from "+
+            Log.i(prefsChangeListener.TAG, "instance gotten, called from "+
                     caller.getClassName()+"."+caller.getMethodName()+":"+caller.getLineNumber());
             c = ctx;
         }

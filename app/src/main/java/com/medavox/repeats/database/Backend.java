@@ -2,6 +2,7 @@ package com.medavox.repeats.database;
 
 import com.medavox.repeats.datamodels.CompletedDose;
 import com.medavox.repeats.datamodels.IntendedDose;
+import com.medavox.repeats.datamodels.Task;
 
 import java.util.List;
 
@@ -10,28 +11,31 @@ import java.util.List;
  * */
 public interface Backend {
 
+
+    /**@return the id of the task in the table*/
+    int addTask(Task newTask);
+
+    boolean deleteTask(Task taskToDelete);
+    Task[] getTasksDueToday();
+
+
+
+
+    //--------------------old---------------------
+
     int getIntendedDoseCount();
-    int getCompletedDoseCount();
 
     void addIntendedDose(IntendedDose intendedDose);
     void addIntendedDoseList(List<IntendedDose> intendedDoses);
     void addIntendedDoses(IntendedDose[] intendedDoses);
 
-    void addCompletedDose(CompletedDose completedDose);
-    void addCompletedDoseList(List<CompletedDose> completedDoses);
-    void addCompletedDoses(CompletedDose[] completedDoses);
-
-    CompletedDose getPreviousDoseCompleted();
     IntendedDose getNextDueDose();
 
     boolean hasIntendedDoseWithId(int id);
-    boolean hasCompletedDoseWithId(int id);
 
     IntendedDose getIntendedDoseById(int id);
-    CompletedDose getCompletedDoseById(int id);
 
     List<IntendedDose> getAllIntendedDoses();
-    List<CompletedDose> getAllCompletedDoses();
 
     /**Only call this when closing, and perhaps pausing the application*/
     void close();

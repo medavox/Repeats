@@ -29,14 +29,6 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
     private final String DOSES_INTENDED_COLUMN_ENDTIME = "time_end";
     private final String DOSES_INTENDED_COLUMN_DUETIME = "time_due";
 
-    /**
-     * Table name and column names for doses_completed table
-     */
-    private final String DOSES_COMPLETED_TABLE_NAME = "doses_completed";
-    private final String DOSES_COMPLETED_COLUMN_EFFECTIVEDATE  = "effective_date";
-    private final String DOSES_COMPLETED_COLUMN_STATUS = "status";
-    private final String DOSES_COMPLETED_COLUMN_ERROR  = "error";
-
     private static BackendHelper helper;
     private static SQLiteDatabase writableDB;
     private static SQLiteDatabase readableDB;
@@ -87,28 +79,12 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
         Log.d("SQL", createTableDosesIntended);
         SQLiteStatement stmtDoseIntend = db.compileStatement(createTableDosesIntended);
         stmtDoseIntend.execute();
-
-        String createTableDosesCompleted = "create table if not exists " + DOSES_COMPLETED_TABLE_NAME + "( " +
-                COMMON_COLUMN_ID + "  integer primary key autoincrement, " +
-                COMMON_COLUMN_DOSEID + " int not null, " +
-                DOSES_COMPLETED_COLUMN_EFFECTIVEDATE + " long not null," +
-                COMMON_COLUMN_QUANTITY + " int not null, " +
-                DOSES_COMPLETED_COLUMN_STATUS + " varchar(32) not null, " +
-                DOSES_COMPLETED_COLUMN_ERROR + " varchar(255) " +//optional
-                ");";
-
-        Log.d("SQL", createTableDosesIntended);
-        SQLiteStatement stmtDoseComplete = db.compileStatement(createTableDosesCompleted);
-        stmtDoseComplete.execute();
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + DOSES_INTENDED_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + DOSES_COMPLETED_TABLE_NAME);
-
         onCreate(db);
 
     }
@@ -117,9 +93,6 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
         return getNumberOfDoses(DOSES_INTENDED_TABLE_NAME);
     }
 
-    public int getCompletedDoseCount(){
-        return getNumberOfDoses(DOSES_COMPLETED_TABLE_NAME);
-    }
 
     /**
      * Get count of all rows in table
@@ -187,81 +160,11 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
     }
 
     @Override
-    public void addCompletedDoses(CompletedDose[] completedDoses) {
-        for(CompletedDose dose : completedDoses) {
-            addCompletedDose(dose);
-        }
-    }
-
-    @Override
     public void addIntendedDoses(IntendedDose[] intendedDoses) {
         SQLiteDatabase db = writableDB;
         for(IntendedDose dose : intendedDoses) {
             addIntendedDose(dose, db);
         }
-    }
-
-    /**
-     * Insert a completedDose object
-     * @param completedDose
-     * CompletedDose object to insert */
-    //todo? update network platform, when this method is called
-    public void addCompletedDose(CompletedDose completedDose) {
-        SQLiteDatabase db = writableDB;
-        String sql = "INSERT INTO " + DOSES_COMPLETED_TABLE_NAME +
-                " (" + COMMON_COLUMN_DOSEID +
-                " , " + DOSES_COMPLETED_COLUMN_EFFECTIVEDATE +
-                " , " + COMMON_COLUMN_QUANTITY +
-                " , " + DOSES_COMPLETED_COLUMN_STATUS +
-                " , " + DOSES_COMPLETED_COLUMN_ERROR
-                + ") VALUES (?, ?, ?, ?, ?)";
-
-        SQLiteStatement statement = db.compileStatement(sql);
-        int i = 1;//sql indices start at 1
-        statement.bindDouble(i++, completedDose.getDoseID()); // These match to the question marks in the sql string
-        statement.bindLong(i++, completedDose.getEffectiveDate());
-        statement.bindDouble(i++, completedDose.getQuantity());
-        statement.bindString(i++, completedDose.getStatus());
-        if(completedDose.getError() != null) {
-            statement.bindString(i++, completedDose.getError());
-        }
-        else {
-            statement.bindNull(i++);
-        }
-        Log.i("BackendHelper", "inserting "+completedDose);
-        statement.executeInsert();
-    }
-
-    /**
-     * Bulk insert of competedDoses via a list
-     * @param completedDoses
-     * List of CompletedDoses
-     */
-    public void addCompletedDoseList(List<CompletedDose> completedDoses) {
-        for(CompletedDose dose : completedDoses){
-            addCompletedDose(dose);
-        }
-    }
-
-    /**
-     * Return the last completedDose. This will be the previous dose the user interacted with
-     * @return
-     * CompletedDose object
-     */
-    public CompletedDose getPreviousDoseCompleted() {
-        SQLiteDatabase db = readableDB;
-        Cursor dbCursor = db.query(DOSES_COMPLETED_TABLE_NAME, null, null, null, null, null, DOSES_COMPLETED_COLUMN_EFFECTIVEDATE + " DESC", "1");
-        int cursor_count = dbCursor.getCount();
-        CompletedDose completedDose = null;
-        if(cursor_count>0) {
-            if (dbCursor.moveToFirst()) {
-                completedDose = new CompletedDose(/*dose_id*/dbCursor.getInt(1),
-                        /*effectiveDate*/dbCursor.getLong(2), /*quantity*/dbCursor.getInt(3),
-                        /*status*/dbCursor.getString(4), /*error*/dbCursor.getString(5));
-            }
-        }
-        dbCursor.close();
-        return completedDose;
     }
 
     @Override
@@ -278,8 +181,7 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
     @Override
     public int deletePlan() {
         SQLiteDatabase db = readableDB;//does this need to be writable in order to delete rows?
-        return db.delete(DOSES_INTENDED_TABLE_NAME, null, null)
-                + db.delete(DOSES_COMPLETED_TABLE_NAME, null, null);//todo:consider completed doses and plans architecture
+        return db.delete(DOSES_INTENDED_TABLE_NAME, null, null);//todo:consider completed doses and plans architecture
     }
 
     /**
@@ -324,40 +226,14 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
             //check that this IntendedDose doesn't have a corresponding CompletedDose
             //(ie that it's actually a CompletedDose whose IntendedDose.endTime hasn't passed yet)
             int doseID = cursor.getInt(doseIDIndex);
-            if(!hasCompletedDoseWithId(doseID)) {
                 iDose = new IntendedDose(doseID,
                         cursor.getLong(startTimeIndex),
                         cursor.getLong(endTimeIndex),
                         cursor.getLong(dueTimeIndex),
                         cursor.getInt(quantityIndex));
-            }
 
         }
         return iDose;
-    }
-/*
-    public IntendedDose getNextDueDose() {
-        IntendedDose intendedDose = null;
-        //get dose id of most recent previous dose
-        CompletedDose previousDose = getPreviousDoseCompleted();
-
-        int nextDoseId = 1;
-        if(previousDose != null){
-            int previousDoseId = previousDose.getDoseID();
-            nextDoseId = previousDoseId + 1;
-        }
-
-        int intendedDoses = getIntendedDoseCount();
-        //check intendedDose with id nextDoseId exists.
-        if(nextDoseId<=intendedDoses){//assumes dose IDs are incremental from 1
-            intendedDose = getIntendedDoseById(nextDoseId);
-        }
-        return intendedDose;
-    }
-*/
-    @Override
-    public boolean hasCompletedDoseWithId(int id) {
-        return hasDoseWithId(id, DOSES_COMPLETED_TABLE_NAME);
     }
 
     @Override
@@ -401,69 +277,6 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
         dbCursor.close();
         return intendedDose;
     }
-    /**
-     * Return a CompletedDose from the database based on its DoseID
-     * @param id
-     * DoseID of CompletedDose object to retrieve
-     * @return
-     * CompletedDose object
-     */
-    public CompletedDose getCompletedDoseById(int id) {
-        SQLiteDatabase db = readableDB;
-        String selection = COMMON_COLUMN_DOSEID + " = ?";
-        String[] selectionArgs = {String.valueOf(id)};
-        Cursor dbCursor = db.query(DOSES_COMPLETED_TABLE_NAME, null, selection, selectionArgs, null, null, null, null);
-        int cursor_count = dbCursor.getCount();
-        CompletedDose completedDose = null;
-        if(cursor_count>0) {
-            if (dbCursor.moveToFirst()) {//todo: retrieve most recent CompletedDose for this DoseID, rather than the first in the table
-                completedDose = new CompletedDose(/*dose_id*/dbCursor.getInt(1),
-                        /*effectiveDate*/dbCursor.getLong(2), /*quantity*/dbCursor.getInt(3),
-                        /*status*/dbCursor.getString(4), /*error*/dbCursor.getString(5));
-            }
-        }
-        dbCursor.close();
-        return completedDose;
-    }
-
-    @Override
-    public List<CompletedDose> getAllCompletedDoses() {
-        String[] columnsToReturn = {COMMON_COLUMN_DOSEID,
-                COMMON_COLUMN_QUANTITY,
-                DOSES_COMPLETED_COLUMN_EFFECTIVEDATE,
-                DOSES_COMPLETED_COLUMN_STATUS,
-                DOSES_COMPLETED_COLUMN_ERROR};
-
-        Cursor cursor = readableDB.query(DOSES_COMPLETED_TABLE_NAME, columnsToReturn, null, null, null, null, null);
-        int count = cursor.getCount();
-
-        List<CompletedDose> doses = new ArrayList<CompletedDose>(count);
-
-        if(count <= 0) {
-            return doses;
-        }
-
-        int doseIDIndex = cursor.getColumnIndex(COMMON_COLUMN_DOSEID);
-        int quantityIndex = cursor.getColumnIndex(COMMON_COLUMN_QUANTITY);
-        int effectiveTimeIndex = cursor.getColumnIndex(DOSES_COMPLETED_COLUMN_EFFECTIVEDATE);
-        int statusIndex = cursor.getColumnIndex(DOSES_COMPLETED_COLUMN_STATUS);
-        int errorIndex = cursor.getColumnIndex(DOSES_COMPLETED_COLUMN_ERROR);
-
-
-        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            int doseID = cursor.getInt(doseIDIndex);
-            int quantity = cursor.getInt(quantityIndex);
-            long effectiveTime = cursor.getLong(effectiveTimeIndex);
-            String status = cursor.getString(statusIndex);
-            String errorMessage = cursor.getString(errorIndex);
-
-            doses.add(new CompletedDose(doseID, effectiveTime, quantity, status, errorMessage));
-        }
-
-        cursor.close();
-        return doses;
-    }
-
     @Override
     public List<IntendedDose> getAllIntendedDoses() {
         return getAllIntendedDoses(false);
@@ -494,7 +307,7 @@ public class BackendHelper extends SQLiteOpenHelper implements Backend {
             int doseID = cursor.getInt(doseIDIndex);
 
             //only include IntendedDoses which don't have a corresponding CompeltedDose, if includeCompleted is false
-            if(excludeCompleted && hasCompletedDoseWithId(doseID)) {
+            if(excludeCompleted) {
                 continue;
             }
             long startTime = cursor.getLong(startTimeIndex);
